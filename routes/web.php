@@ -16,5 +16,5 @@ use App\Http\Controllers\PostController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/contact', [HomeController::class,'contact'])->name('contact');
-Route::resource("/posts", PostController::class);
+Route::resource("/posts", PostController::class)->only(["index", "show"]);
 
