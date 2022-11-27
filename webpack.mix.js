@@ -12,7 +12,7 @@ const {browserSync} = require("laravel-mix");
  |
  */
 var files = ["./resources", "./routes", "./app", "./public"];
-mix.browserSync({ proxy: 'blogpost.com'});
+mix.browserSync({ proxy: 'blogpost.com', notify: false});
 // mix.browserSync("127.0.0.1:8000");
 mix.disableNotifications();
 
