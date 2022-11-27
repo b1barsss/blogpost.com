@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +16,5 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/contact', [HomeController::class,'contact'])->name('contact');
-Route::get('/blog-post/{id}/{welcome?}' , [HomeController::class, 'blogPost'])->name('blog-post');
-
+Route::resource("/posts", PostController::class);
 
