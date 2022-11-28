@@ -1,5 +1,4 @@
 const mix = require('laravel-mix');
-const {browserSync} = require("laravel-mix");
 
 /*
  |--------------------------------------------------------------------------
@@ -11,11 +10,8 @@ const {browserSync} = require("laravel-mix");
  | file for the application as well as bundling up all the JS files.
  |
  */
-var files = ["./resources", "./routes", "./app", "./public"];
 mix.browserSync({ proxy: 'blogpost.com', notify: false});
-// mix.browserSync("127.0.0.1:8000");
 mix.disableNotifications();
 
 mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-    ]);
+    .sass('resources/css/app.scss', 'public/css');
