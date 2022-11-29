@@ -26,13 +26,14 @@
     </nav>
 </div>
 
-@if(session()->has("status"))
-    <p style="color: green">
-        {{ session()->get("status") }}
-    </p>
-@endif
-@yield("content")
-
+<div class="container">
+    @if(session()->has("status"))
+        <p style="color: green">
+            {{ session()->get("status") }}
+        </p>
+    @endif
+    @yield("content")
+</div>
 <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

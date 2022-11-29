@@ -4,9 +4,8 @@
 
     <h1>{{ $post->title }}</h1>
     <p> {{ $post->content }}</p>
-    <i>
-        <a href="{{ route('posts.edit', ['post' => $post->id]) }}">Edit</a>
-    </i>
+    <a class="btn btn-primary" href="{{ route('posts.edit', ['post' => $post->id]) }}">Edit</a>
+
 {{--    <p>Added {{ $post->created_at->diffForHumans() }}</p>--}}
 
 {{--    {{ (new \Carbon\Carbon())->diffInMinutes($post->created_at) }}--}}
