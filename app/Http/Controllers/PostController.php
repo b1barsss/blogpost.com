@@ -26,7 +26,7 @@ class PostController extends Controller
 //        dd(DB::getQueryLog());
         return view(
             "posts.index",
-            ["posts" => BlogPost::withCount('comment')->get()]); // comment_count column added
+            ["posts" => BlogPost::withCount('comments')->get()]); // comments_count column added
     }
 
     public function show(Request $request, $id) //There are another way how to write this method

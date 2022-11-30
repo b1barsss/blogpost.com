@@ -35,9 +35,11 @@ class PostTest extends TestCase
     public function test_seeOneBlogPostWithComments()
     {
         $post = $this->createDummyBlogPost();
-        Comment::factory(['blog_post_id' => $post->id])->count(4)->create();
-        $response = $this->get('/posts');
+//        $comments = Comment::factory()->count(4)->create(['blog_post_id' => $post->id]);
 
+        Comment::factory()->count(4)->for($post)->create();
+
+        $response = $this->get('/posts');
         $response->assertSeeText('4 comments');
     }
     public function test_StoreValid()
@@ -113,10 +115,13 @@ class PostTest extends TestCase
 
     private function createDummyBlogPost(): BlogPost
     {
-        $post = new BlogPost();
-        $post->title = 'New Title';
-        $post->content = "New content of the blogpost";
-        $post->save();
-        return $post;
+//        $post = new BlogPost();
+//        $post->title = 'New Title';
+//        $post->content = "New content of the blogpost";
+//        $post->save();
+
+        return BlogPost::factory()->new_title()->create();
+
+//        return $post;
     }
 }

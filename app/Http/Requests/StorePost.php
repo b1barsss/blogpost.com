@@ -24,7 +24,7 @@ class StorePost extends FormRequest
     public function rules()
     {
         return [
-            'title' => [ 'bail','required', 'min: 5',  'max:50'], // "bail" used for stop validate by first error (without this, it will check for every validation
+            'title' => [ 'bail','required', 'min: 5'], // "bail" used for stop validate by first error (without this, it will check for every validation
             'content' => ['required', 'min: 10']
         ];
     }

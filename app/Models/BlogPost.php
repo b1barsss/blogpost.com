@@ -21,7 +21,7 @@ class BlogPost extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function comment()
+    public function comments()
     {
         return $this->hasMany(Comment::class);
     }
