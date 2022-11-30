@@ -24,14 +24,14 @@ class PostTest extends TestCase
         $response = $this->get('/posts');
 
         $response->assertSeeText('New Title');
-
+        $response->assertSeeText('No comments yet!');
         $this->assertDatabaseHas('blog_posts',[
             'title' => 'New Title',
             'content' => 'New content of the blogpost'
         ]);
     }
 
-    public function test_StoreValidation()
+    public function test_StoreValid()
     {
         $params = [
             'title' => 'Valid title',

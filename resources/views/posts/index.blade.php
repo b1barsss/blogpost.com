@@ -8,6 +8,12 @@
                 <a href="{{ route('posts.show', ['post' => $post->id]) }}">{{ $post->title }}</a>
             </h3>
 
+            @if($post->comment_count)
+                <p>{{ $post->comment_count }} comments</p>
+            @else
+                <p>No comments yet!</p>
+            @endif
+
             <div class="row">
                 <div class="col-md-1">
                     <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary btn-block" >Edit</a>

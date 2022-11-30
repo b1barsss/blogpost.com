@@ -5,12 +5,28 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
+//use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
     public function index()
     {
-        return view("posts.index",["posts" => BlogPost::all()]);
+//        DB::connection()->enableQueryLog();
+//
+//        $posts = BlogPost::with('comment')->get();
+//
+//        foreach ($posts as $post)
+//        {
+//            foreach ($post->comment as $comment)
+//            {
+////                echo $comment->content;
+//            }
+//        }
+//
+//        dd(DB::getQueryLog());
+        return view(
+            "posts.index",
+            ["posts" => BlogPost::withCount('comment')->get()]); // comment_count column added
     }
 
     public function show(Request $request, $id) //There are another way how to write this method
