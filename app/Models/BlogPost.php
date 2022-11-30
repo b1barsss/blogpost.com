@@ -11,15 +11,20 @@ class BlogPost extends Model
     use HasFactory;
 //    protected $table = "blogposts";
 
+    protected $fillable = [
+        'title',
+        'content'
+    ];
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
     }
 
-    protected $fillable = [
-        'title',
-        'content'
-    ];
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
+    }
 
 
 }
