@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\DB;
 
@@ -33,7 +34,9 @@ class PostController extends Controller
     {
 
 //        $request->session()->reflash();
-        return view('posts.show', ["post" => BlogPost::findOrFail($id)]);
+        return view('posts.show', [
+            "post" => BlogPost::with('comments')->findOrFail($id)
+        ]);
     }
 
 //    public function show(Request $request, BlogPost $post)
@@ -75,9 +78,10 @@ class PostController extends Controller
     }
     public function destroy(Request $request, $id)
     {
-        $post = BlogPost::findOrFail($id);
-        $post->delete();
-//        BlogPost::destroy($id);
+//        $post = BlogPost::findOrFail($id);
+//        $post->delete();
+        Comment::destroy(BlogPost::findOrFail($id)->comments);
+        BlogPost::destroy($id);
 
         $request->session()->flash("status", 'Blog post was Deleted!!!');
         return redirect()->route('posts.index');
