@@ -19,10 +19,10 @@ class CommentsTableSeeder extends Seeder
 
         if ($posts->count() === 0)
         {
-            $this->command->info('There are no blog posts, so no comments will be added');
+            $this->command->info('==========[THERE ARE NO BLOGPOSTS, SO NO COMMENTS WILL BE ADDED!]==========');
             return;
         }
-        $commentCount = (int)$this->command->ask("How many [Comments] would you like?",130);
+        $commentCount = (int)$this->command->ask("How many [Comments] would you like?",120);
 
         Comment::factory()->count($commentCount)->make()->each(
             function ($comment) use ($posts)

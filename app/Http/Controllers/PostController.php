@@ -80,7 +80,7 @@ class PostController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        Comment::destroy(BlogPost::findOrFail($id)->comments);
+//        Comment::destroy(BlogPost::findOrFail($id)->comments);
         BlogPost::destroy($id);
 
         $request->session()->flash("status", 'Blog post was Deleted!!!');
