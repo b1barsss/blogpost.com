@@ -11,7 +11,7 @@
             @if($post->comments_count)
                 <p>{{ $post->comments_count }} comments</p>
             @else
-                <p>No comments yet!</p>
+                <p><span class="font-weight-bold">No comments yet!</span></p>
             @endif
 
             <div class="d-flex align-items-center ">
@@ -30,6 +30,6 @@
         </p>
     </div>
 @empty
-    <p>No blog posts yet!</p>
+    <h6 class="font-weight-bolder">No blog posts yet!</h6>
 @endforelse
 @endsection

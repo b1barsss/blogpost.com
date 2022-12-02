@@ -19,9 +19,7 @@ class PostController extends Controller
     public function index()
     {
 //        DB::connection()->enableQueryLog();
-//
 //        $posts = BlogPost::with('comment')->get();
-//
 //        foreach ($posts as $post)
 //        {
 //            foreach ($post->comment as $comment)
@@ -29,7 +27,6 @@ class PostController extends Controller
 ////                echo $comment->content;
 //            }
 //        }
-//
 //        dd(DB::getQueryLog());
         return view(
             "posts.index",
@@ -44,13 +41,11 @@ class PostController extends Controller
             "post" => BlogPost::with('comments')->findOrFail($id)
         ]);
     }
-
 //    public function show(Request $request, BlogPost $post)
 //    {
 //        $request->session()->reflash();
 //        return view('posts.show', ["post" => $post]);
 //    }
-
     public function create()
     {
         return view('posts.create');
@@ -61,8 +56,8 @@ class PostController extends Controller
         $validatedData = $request->validated();
 
         $blogPost = BlogPost::create($validatedData);
-        $request->session()->flash('status','Blog post was created successfully!');
 
+        $request->session()->flash('status','Blog post was created successfully!');
         return redirect()->route('posts.show', ['post' => $blogPost->id]);
     }
 
@@ -82,10 +77,9 @@ class PostController extends Controller
         $request->session()->flash("status", 'Blog post was Updated!!!');
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
+
     public function destroy(Request $request, $id)
     {
-//        $post = BlogPost::findOrFail($id);
-//        $post->delete();
         Comment::destroy(BlogPost::findOrFail($id)->comments);
         BlogPost::destroy($id);
 
