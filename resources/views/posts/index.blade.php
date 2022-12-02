@@ -14,18 +14,19 @@
                 <p>No comments yet!</p>
             @endif
 
-            <div class="row">
-                <div class="col-md-1">
+            <div class="d-flex align-items-center ">
+                <div class="d-inline-block mr-1 ">
                     <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary btn-block" >Edit</a>
                 </div>
-                <div class="col-md-0">
-                    <form method="POST" class="form-inline" action="{{ route('posts.destroy', ['post' => $post->id]) }}">
+                <div class="d-inline-block ml-1">
+                    <form method="POST" action="{{ route('posts.destroy', ['post' => $post->id]) }}">
                         @csrf
                         @method('DELETE')
                         <input type="submit" value="Delete!" class="btn btn-danger btn-block"/>
                     </form>
                 </div>
             </div>
+
         </p>
     </div>
 @empty

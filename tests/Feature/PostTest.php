@@ -4,8 +4,10 @@ namespace Tests\Feature;
 
 use App\Models\BlogPost;
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class PostTest extends TestCase
@@ -44,12 +46,15 @@ class PostTest extends TestCase
     }
     public function test_StoreValid()
     {
+
         $params = [
             'title' => 'Valid title',
             'content' => 'At least 10 character'
         ];
 
-        $this->post('/posts', $params)
+
+        $this->actingAs($this->user())
+            ->post('/posts', $params)
             ->assertStatus(302)
             ->assertSessionHas('status');
 
@@ -63,7 +68,8 @@ class PostTest extends TestCase
             'content' => 'x'
         ];
 
-        $this->post('/posts', $params)
+        $this->actingAs($this->user())
+            ->post('/posts', $params)
             ->assertStatus(302)
             ->assertSessionHas('errors');
 
@@ -84,7 +90,8 @@ class PostTest extends TestCase
             'content' => 'A new valid content mother fucker'
         ];
 
-        $this->put("posts/{$post->id}" , $params)  // Checking for put request
+        $this->actingAs($this->user())
+            ->put("posts/{$post->id}" , $params)  // Checking for put request
             ->assertStatus(302)
             ->assertSessionHas('status');
 
@@ -103,7 +110,8 @@ class PostTest extends TestCase
 
         $this->assertDatabaseHas('blog_posts', $post->toArray());
 
-        $this->delete("/posts/{$post->id}")
+        $this->actingAs($this->user())
+            ->delete("/posts/{$post->id}")
             ->assertStatus(302)
             ->assertSessionHas('status');
 
