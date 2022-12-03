@@ -47,7 +47,7 @@ class AuthServiceProvider extends ServiceProvider
 //        Gate::resource('posts', BlogPostPolicy::class);
 
         Gate::before(function ($user, $ability){
-            return ($user->is_admin and in_array($ability, ['update'])) ?: null;
+            return ($user->is_admin and in_array($ability, ['update','delete', 'restore'])) ?: null;
 
         });
 

@@ -82,7 +82,9 @@ class BlogPostPolicy
      */
     public function restore(User $user, BlogPost $blogPost)
     {
-        //
+        return $user->id === $blogPost->user_id
+            ? Response::allow()
+            : Response::deny('You do not own this post.');
     }
 
     /**
