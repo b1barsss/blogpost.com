@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
     {
         $userCount = max((int)$this->command->ask('How many [Users] would you like?', 20),1);
 
-        User::factory()->forSeeder()->create();
+        User::factory()->john_doe()->create();
         User::factory()->count($userCount - 1)->create();
     }
 }
