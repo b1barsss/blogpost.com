@@ -16,13 +16,7 @@
 
         <div class="form-group">
             <label for="">E-mail:</label>
-            <input name="email" value="{{ old('email') }}" placeholder="example@gmail.com" required
-                   class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" >
-            @if($errors->has('email'))
-                <span class="invalid-feedback">
-                    <strong>{{ $errors->first('email') }}</strong>
-                </span>
-            @endif
+
         </div>
 
         <div class="form-group">

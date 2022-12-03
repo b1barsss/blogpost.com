@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Scopes\LatestScope;
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -27,7 +29,7 @@ class BlogPost extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->latest();
     }
 
     public function user()
@@ -35,9 +37,15 @@ class BlogPost extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function scopeMostCommented(Builder $query)
+    {
+        return $query->withCount('comments')->orderBy('comments_count', 'desc');
+    }
+
     public static function boot()
     {
         parent::boot();
+
 
         static::deleting(
             function (BlogPost $blogPost)

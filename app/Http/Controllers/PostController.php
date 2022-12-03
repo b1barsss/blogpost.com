@@ -34,9 +34,12 @@ class PostController extends Controller
 //            }
 //        }
 //        dd(DB::getQueryLog());
-        return view(
-            "posts.index",
-            ["posts" => BlogPost::withCount('comments')->get()]); // comments_count column added
+        return view("posts.index",[
+            "posts" => BlogPost::latest()->withCount('comments')->get(),
+            "mostCommented" => BlogPost::mostCommented()->take(5)->get(),
+            "mostActive" => User::withMostBlogPosts()->take(5)->get(),
+            "mostActiveLastMonth" => User::withMostBlogPostsLastMonth()->take(5)->get(),
+        ]); // comments_count column added
     }
 
     public function show(Request $request, $id) //There are another way how to write this method
@@ -44,8 +47,13 @@ class PostController extends Controller
 
 //        $request->session()->reflash();
         return view('posts.show', [
-            "post" => BlogPost::with('comments')->findOrFail($id)
+            "post" => BlogPost::with(['comments' => function ($query)
+            {return $query->latest();}])->findOrFail($id)
         ]);
+//        return view('posts.show', [
+//            "post" => BlogPost::latestt()->with(['comments' => function ($query)
+//            {return $query->latestt();}])->findOrFail($id)
+//        ]);
     }
 //    public function show(Request $request, BlogPost $post)
 //    {
@@ -60,7 +68,7 @@ class PostController extends Controller
     public function store(StorePost $request)
     {
         $validatedData = $request->validated();
-        $validatedData['user_id'] = auth()->user()->id;
+        $validatedData['user_id'] = $request->user()->id;
 
         $blogPost = BlogPost::create($validatedData);
 
