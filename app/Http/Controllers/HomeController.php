@@ -20,23 +20,8 @@ class HomeController extends Controller
         return view('contact');
     }
 
-    public function blogPost($id, $welcome)
+    public function secret()
     {
-        $pages = [
-            1 => [
-                'title' => "page 1"
-            ],
-            2 => [
-                'title' => "page 2"
-            ],
-        ];
-        $welcomes = [
-            1 => '<b>Hello</b> from ',
-            2 => "Welcome to ",
-        ];
-        return view('blog-post', [
-            'data' => $pages[$id],
-            'welcome' => $welcomes[$welcome]
-        ]);
+        return view('secret');
     }
 }

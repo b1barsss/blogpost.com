@@ -81,17 +81,16 @@ class PostTest extends TestCase
 
     public function test_UpdateValid()
     {
-        $post = $this->createDummyBlogPost();
-
+        $user = User::factory()->john_doe()->create();
+        $post = $this->createDummyBlogPost($user->id);
         $this->assertDatabaseHas('blog_posts', $post->toArray()); // Verifying that created in the database
 
         $params = [
             'title' => 'A new valid',
             'content' => 'A new valid content mother fucker'
         ];
-
-        $this->actingAs($this->user())
-            ->put("posts/{$post->id}" , $params)  // Checking for put request
+        $this->actingAs($user)
+            ->put("posts/{$post->id}", $params )
             ->assertStatus(302)
             ->assertSessionHas('status');
 
@@ -106,11 +105,12 @@ class PostTest extends TestCase
 
     public function test_DeleteValid()
     {
-        $post = $this->createDummyBlogPost();
+        $user = $this->user();
+        $post = $this->createDummyBlogPost(1);
 
         $this->assertDatabaseHas('blog_posts', $post->toArray());
 
-        $this->actingAs($this->user())
+        $this->actingAs($user)
             ->delete("/posts/{$post->id}")
             ->assertStatus(302)
             ->assertSessionHas('status');
@@ -120,14 +120,17 @@ class PostTest extends TestCase
         $this->assertSoftDeleted('blog_posts', $post->toArray());
     }
 
-    private function createDummyBlogPost(): BlogPost
+    private function createDummyBlogPost(int $userId = null): BlogPost
     {
 //        $post = new BlogPost();
 //        $post->title = 'New Title';
 //        $post->content = "New content of the blogpost";
 //        $post->save();
 
-        return BlogPost::factory()->new_title()->create();
+        return BlogPost::factory()->new_title()->create(
+            [
+                'user_id' => $userId ?? $this->user()->id
+            ]);
 
 //        return $post;
     }

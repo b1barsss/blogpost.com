@@ -16,7 +16,8 @@ class BlogPost extends Model
 
     protected $fillable = [
         'title',
-        'content'
+        'content',
+        'user_id'
     ];
 
     protected function serializeDate(DateTimeInterface $date)

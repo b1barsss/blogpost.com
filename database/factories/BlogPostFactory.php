@@ -17,7 +17,7 @@ class BlogPostFactory extends Factory
     {
         return [
             "title" => $this->faker->sentence(10),
-            "content" => $this->faker->paragraphs(5,true)
+            "content" => $this->faker->paragraphs(rand(1,5),true)
         ];
     }
 

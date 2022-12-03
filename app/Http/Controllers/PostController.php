@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
 //use App\Models\Comment;
+use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Response;
 
 //use Illuminate\Support\Facades\DB;
 
@@ -56,6 +60,7 @@ class PostController extends Controller
     public function store(StorePost $request)
     {
         $validatedData = $request->validated();
+        $validatedData['user_id'] = auth()->user()->id;
 
         $blogPost = BlogPost::create($validatedData);
 
@@ -67,7 +72,7 @@ class PostController extends Controller
     {
         $post = BlogPost::findOrFail($id);
 
-        $this->authorize('update-post',$post);
+        $this->authorize('update',$post);
 //        if (Gate::denies('update-post', $post))
 //        {
 //            abort(403,"You can't edit this blog post!");
@@ -84,16 +89,17 @@ class PostController extends Controller
 //        {
 //            abort(403,"You can't edit this blog post!");
 //        }
+//        Gate::authorize('update', $post);
 
-        $this->authorize('update-post', $post);
 
         $validatedData = $request->validated();
-
         $post->fill($validatedData)->save();
-
         $request->session()->flash("status", 'Blog post was Updated!!!');
+
+
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
+
 
     public function destroy(Request $request, $id)
     {
@@ -102,8 +108,7 @@ class PostController extends Controller
 //        {
 //            abort(403,"You can't delete this blog post!");
 //        }
-        $this->authorize('delete-post', $post);
-
+//        $this->authorize('delete', $post);
 
         $post->delete();
 

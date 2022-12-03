@@ -24,6 +24,29 @@ class UserFactory extends Factory
         ];
     }
 
+    public function john_doe()
+    {
+        return $this->state(function ()
+        {
+            return [
+                'name' => 'John Doe',
+                'email' => 'john@gmail.com',
+            ];
+        });
+    }
+
+    public function admin()
+    {
+        return $this->state(function ()
+        {
+            return [
+                'name' => 'admin adminov',
+                'email' => 'admin@gmail.com',
+                'is_admin' => true,
+            ];
+        });
+    }
+
     /**
      * Indicate that the model's email address should be unverified.
      *
@@ -36,18 +59,6 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'email_verified_at' => null,
-            ];
-        });
-    }
-
-    public function john_doe()
-    {
-        return $this->state(function ()
-        {
-            return [
-                'name' => 'John Doe',
-                'email' => 'john@gmail.com',
-                'is_admin' => true,
             ];
         });
     }

@@ -8,7 +8,7 @@
                 <a href="{{ route('posts.show', ['post' => $post->id]) }}">{{ $post->title }}</a>
             </h3>
 
-            <p class="text-muted">
+            <p class="text-muted" >
                 Added {{ $post->created_at->diffForHumans() }}
                 by {{ $post->user->name }}
             </p>
@@ -19,16 +19,20 @@
             @endif
 
             <div class="d-flex align-items-center ">
-                <div class="d-inline-block mr-1 ">
-                    <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary btn-block" >Edit</a>
-                </div>
-                <div class="d-inline-block ml-1">
-                    <form method="POST" action="{{ route('posts.destroy', ['post' => $post->id]) }}">
-                        @csrf
-                        @method('DELETE')
-                        <input type="submit" value="Delete" class="btn btn-danger btn-block"/>
-                    </form>
-                </div>
+                @can('update', $post)
+                    <div class="d-inline-block mr-1 ">
+                        <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary btn-block" >Edit</a>
+                    </div>
+                @endcan
+                @can('delete', $post)
+                    <div class="d-inline-block ml-1">
+                        <form method="POST" action="{{ route('posts.destroy', ['post' => $post->id]) }}">
+                            @csrf
+                            @method('DELETE')
+                            <input type="submit" value="Delete" class="btn btn-danger btn-block"/>
+                        </form>
+                    </div>
+                @endcan
             </div>
         </p>
     </div>
