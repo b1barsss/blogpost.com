@@ -3,7 +3,7 @@
 @section('content')
     <form method="post" action=" {{ route("posts.update", ['post' => $post->id]) }} ">
         @csrf
-        @method('PUT')
+        @method('PATCH')
 
         @include('posts._form')
 

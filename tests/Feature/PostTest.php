@@ -90,13 +90,14 @@ class PostTest extends TestCase
             'content' => 'A new valid content mother fucker'
         ];
         $this->actingAs($user)
-            ->put("posts/{$post->id}", $params )
+            ->patch("posts/{$post->id}", $params )
             ->assertStatus(302)
             ->assertSessionHas('status');
 
         $this->assertEquals(session('status'), "Blog post was Updated!!!"); // Checking for session
 
-        $this->assertDatabaseMissing('blog_posts', $post->toArray());   // Checking for object that was updated (shouldn't be in the database)
+        $this->assertDatabaseMissing('blog_posts', $post->toArray());   // Checking for object that was updated
+                                                                             // (shouldn't be in the database)
 
         $this->assertDatabaseHas('blog_posts', [
             'title' => 'A new valid'

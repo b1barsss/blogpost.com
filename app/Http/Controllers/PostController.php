@@ -32,7 +32,7 @@ class PostController extends Controller
         ]); // comments_count column added
 //        DB::connection()->enableQueryLog();
 //        $posts = BlogPost::with('comment')->get();
-//        foreach ($posts as $post)
+//        foreach ($posts as $post)0
 //        {
 //            foreach ($post->comment as $comment)
 //            {
