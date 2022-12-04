@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Response;
 
@@ -24,30 +25,42 @@ class PostController extends Controller
 
     public function index()
     {
+        $mostCommented = Cache::remember('blog-post-most-commented', 60, function ()
+        {
+            return BlogPost::mostCommented()->take(5)->get();
+        });
+        $mostActive = Cache::remember('users-most-active', 60, function ()
+        {
+            return User::withMostBlogPosts()->take(5)->get();
+        });
+        $mostActiveLastMonth = Cache::remember('users-most-active-last-month', 60, function ()
+        {
+            return User::withMostBlogPostsLastMonth()->take(5)->get();
+        });
+
         return view("posts.index",[
-            "posts" => BlogPost::latest()->withCount('comments')->get(),
-            "mostCommented" => BlogPost::mostCommented()->take(5)->get(),
-            "mostActive" => User::withMostBlogPosts()->take(5)->get(),
-            "mostActiveLastMonth" => User::withMostBlogPostsLastMonth()->take(5)->get(),
-        ]); // comments_count column added
-//        DB::connection()->enableQueryLog();
-//        $posts = BlogPost::with('comment')->get();
-//        foreach ($posts as $post)0
-//        {
-//            foreach ($post->comment as $comment)
-//            {
-////                echo $comment->content;
-//            }
-//        }
-//        dd(DB::getQueryLog());
+            "posts" => BlogPost::latest()->withCount('comments')->with('user')->get(),
+            "mostCommented" => $mostCommented,
+            "mostActive" => $mostActive,
+            "mostActiveLastMonth" => $mostActiveLastMonth,
+        ]);
     }
 
     public function show(Request $request, $id) //There are another way how to write this method
     {
+        $blogPost = Cache::remember("blog-post-$id", 60, function () use ($id)
+        {
+           return BlogPost::with(['comments' => function ($query)
+           {
+               return $query->latest();
+           }])->findOrFail($id);
+        });
+
+        $counter = 0;
 
         return view('posts.show', [
-            "post" => BlogPost::with(['comments' => function ($query)
-            {return $query->latest();}])->findOrFail($id)
+            "post" => $blogPost,
+            "counter" => $counter,
         ]);
 //        $request->session()->reflash();
 //        return view('posts.show', [
@@ -110,7 +123,7 @@ class PostController extends Controller
     {
         BlogPost::findOrFail($id)->restore();
 
-        $request->session()->flash("status", 'Blog post was Restored!!!');
+        $request->session()->flash("status", 'Blog post was restored!!!');
         return redirect()->route('posts.index');
     }
 

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use \Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,9 +19,9 @@ use \Illuminate\Support\Facades\Auth;
 Route::get('/', [HomeController::class, 'home'])
     ->name('home');
 //    ->middleware('auth')
-Route::get('/contact', [HomeController::class,'contact'])->name('contact');
 
-Route::get('/secret', [HomeController::class,'secret'])->name('secret')->can('home.secret');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/secret', [HomeController::class, 'secret'])->name('secret')->can('home.secret');
 Route::resource("/posts", PostController::class);
 Route::put('/posts/{post}', [PostController::class, 'restore'])->name('posts.restore');
 Auth::routes();

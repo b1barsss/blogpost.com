@@ -1,6 +1,8 @@
 @if (!isset($show) || $show)
-    <span class="badge badge-{{ $type ?? 'success'}}">
-        {{ $slot }}
-    </span>
+    <h4>
+        <span class="badge badge-{{ $type ?? 'success'}}">
+            {{ $slot }}
+        </span>
+    </h4>
 @endif
 

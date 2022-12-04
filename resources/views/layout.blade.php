@@ -44,14 +44,14 @@
     </div>
 
     <div class="container">
-
-
-        @yield('content')
         @if(session()->has('status'))
             <p style="color: green">
                 {{ session()->get('status') }}
             </p>
         @endif
+
+        @yield('content')
+
     </div>
 
 </body>
