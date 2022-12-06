@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ mix('css/app.css') }}" type="text/css">
     <script src="{{ mix('js/app.js') }}"></script>
-    <title>Blogpost.com</title>
+    <title>blogpost.com</title>
 </head>
 <body>
 {{--<ul>--}}

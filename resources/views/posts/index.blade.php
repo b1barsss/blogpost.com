@@ -12,7 +12,7 @@
                                     <del>
                                         @endif
                                         <a href="{{ route('posts.show', ['post' => $post->id]) }}"
-                                           class="{{ $post->trashed()? "text-muted" : ''}}">
+                                           class="{{ $post->trashed() ? "text-muted" : ''}}">
                                             {{ $post->title }}
                                         </a>
                                         @if($post->trashed())
@@ -23,7 +23,10 @@
                             @updated(['date' => $post->created_at, 'name' => $post->user->name])
                             @endupdated
 
-                            @if($post->comments_count)
+                            @tags(['tags'=> $post->tags]) @endtags
+
+
+                        @if($post->comments_count)
                                 <p>{{ $post->comments_count }} comments</p>
                             @else
                                 <p><span class="">No comments yet!</span></p>
@@ -72,46 +75,7 @@
             </div>
         </div>
         <div class="col-4">
-            <div class="container">
-                <div class="row">
-                    @card(['title' => 'Most Commented'])
-                        @slot('subtitle')
-                            What people are currently talking about
-                        @endslot
-                        @slot('items')
-                            @foreach ($mostCommented as $post)
-                                <li class="list-group-item">
-                                    <a href="{{ route('posts.show', ['post' => $post->id]) }}">
-                                        {{ $post->title }}
-                                    </a>
-                                    @if ((auth()->user()->is_admin) ?? false)
-                                        <div class="text-muted font-italic" style="display: block;">
-                                            {{ $post->comments_count }} comments
-                                        </div>
-                                    @endif
-                                </li>
-                            @endforeach
-                        @endslot
-                    @endcard
-
-                </div>
-                <div class="row mt-3">
-                    @card(['title' => 'Most Active'])
-                        @slot('subtitle')
-                            People with most posts written
-                        @endslot
-                        @slot('items', collect($mostActive)->pluck('name'))
-                    @endcard
-                </div>
-                <div class="row mt-3">
-                    @card(['title' => 'Most Active Last Month'])
-                        @slot('subtitle')
-                            People with most posts written last month
-                        @endslot
-                        @slot('items', collect($mostActiveLastMonth)->pluck('name'))
-                    @endcard
-                </div>
-            </div>
+            @include('posts._activity')
         </div>
     </div>
 @endsection

@@ -24,24 +24,9 @@ class PostController extends Controller
 
     public function index()
     {
-        $mostCommented = Cache::tags(['blog-post'])->remember('blog-post-most-commented', 60, function ()
-        {
-            return BlogPost::mostCommented()->take(5)->get();
-        });
-        $mostActive = Cache::remember('users-most-active', 60, function ()
-        {
-            return User::withMostBlogPosts()->take(5)->get();
-        });
-        $mostActiveLastMonth = Cache::remember('users-most-active-last-month', 60, function ()
-        {
-            return User::withMostBlogPostsLastMonth()->take(5)->get();
-        });
 
         return view("posts.index",[
-            "posts" => BlogPost::latest()->withCount('comments')->with('user')->get(),
-            "mostCommented" => $mostCommented,
-            "mostActive" => $mostActive,
-            "mostActiveLastMonth" => $mostActiveLastMonth,
+            "posts" => BlogPost::latest()->withCount('comments')->with(['user','tags'])->get(),
         ]);
     }
 
@@ -50,12 +35,8 @@ class PostController extends Controller
 
         $blogPost = Cache::tags(['blog-post'])->remember("blog-post-$id", 60, function () use ($id)
         {
-            return BlogPost::with(['comments' => function ($query)
-            {
-                return $query->latest();
-            }])->findOrFail($id);
+            return BlogPost::with(['comments' ,'tags'])->findOrFail($id);
         });
-
         $sessionId = session()->getId();
         $counterKey = "blog-post-$id-counter";
         $usersKey = "blog-post-$id-users";
@@ -64,6 +45,8 @@ class PostController extends Controller
         $usersUpdate = [];
         $difference = 0;
         $now = now();
+
+
 
         foreach ($users as $session => $lastVisit)
         {
@@ -75,20 +58,22 @@ class PostController extends Controller
                 $usersUpdate[$session] = $lastVisit;
             }
         }
-
-        if (!(array_key_exists($sessionId, $users)) || $now->diffInMinutes($users[$sessionId]) >= 1)
-        {
+        if (
+            !array_key_exists($sessionId, $users)
+            || $now->diffInMinutes($users[$sessionId]) >= 1
+        ){
             $difference++;
         }
 
         $usersUpdate[$sessionId] = $now;
         Cache::tags(['blog-post'])->forever($usersKey, $usersUpdate);
 
-        if (! Cache::has($counterKey))
+        if (Cache::tags(['blog-post'])->has($counterKey))
         {
-            Cache::tags(['blog-post'])->forever($counterKey, 1);
-        }else {
             Cache::tags(['blog-post'])->increment($counterKey, $difference);
+        }else {
+            Cache::tags(['blog-post'])->forever($counterKey, 1);
+//            dd(Cache::tags(['blog-post'])->get($counterKey));
         }
 
         $counter = Cache::tags(['blog-post'])->get($counterKey);

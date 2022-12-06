@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use \Illuminate\Support\Facades\Auth;
+use \App\Http\Controllers\PostTagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,4 +25,5 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/secret', [HomeController::class, 'secret'])->name('secret')->can('home.secret');
 Route::resource("/posts", PostController::class);
 Route::put('/posts/{post}', [PostController::class, 'restore'])->name('posts.restore');
+Route::get('/posts/tag/{tag}',[PostTagController::class, 'index'])->name('posts.tags.index');
 Auth::routes();

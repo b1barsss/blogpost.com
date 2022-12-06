@@ -43,6 +43,11 @@ class BlogPost extends Model
         return $query->withCount('comments')->orderBy('comments_count', 'desc');
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class)->withTimestamps();
+    }
+
     public static function boot()
     {
         static::addGlobalScope(new DeletedAdminScope);
