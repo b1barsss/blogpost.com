@@ -12,11 +12,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;
-//use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
-    public  function __construct()
+    public function __construct()
     {
         $this->middleware('auth')
         ->only(['create', 'store', 'edit', 'update', 'destroy', 'restore']);
@@ -26,7 +25,7 @@ class PostController extends Controller
     {
 
         return view("posts.index",[
-            "posts" => BlogPost::latest()->withCount('comments')->with(['user','tags'])->get(),
+            "posts" => BlogPost::latestWithRelations()->get(),
         ]);
     }
 
@@ -35,7 +34,7 @@ class PostController extends Controller
 
         $blogPost = Cache::tags(['blog-post'])->remember("blog-post-$id", 60, function () use ($id)
         {
-            return BlogPost::with(['comments' ,'tags'])->findOrFail($id);
+            return BlogPost::with(['comments' ,'tags', 'comments.user'])->findOrFail($id);
         });
         $sessionId = session()->getId();
         $counterKey = "blog-post-$id-counter";
@@ -82,17 +81,8 @@ class PostController extends Controller
             "post" => $blogPost,
             "counter" => $counter,
         ]);
-//        $request->session()->reflash();
-//        return view('posts.show', [
-//            "post" => BlogPost::latestt()->with(['comments' => function ($query)
-//            {return $query->latestt();}])->findOrFail($id)
-//        ]);
     }
-//    public function show(Request $request, BlogPost $post)
-//    {
-//        $request->session()->reflash();
-//        return view('posts.show', ["post" => $post]);
-//    }
+
     public function create()
     {
         return view('posts.create');

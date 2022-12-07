@@ -49,9 +49,14 @@ class User extends Authenticatable
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function BlogPosts()
+    public function blogPosts()
     {
         return $this->hasMany(BlogPost::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function scopeWithMostBlogPosts(Builder $query)

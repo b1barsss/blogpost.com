@@ -28,4 +28,16 @@ class StorePost extends FormRequest
             'content' => ['required', 'min: 10']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'title.required' => '[Title] field is required',
+            'title.min' => '[Title] field should contain at least 5 chars',
+            'content.required' => '[Content] field is required',
+            'content.min' => '[Content] field should contain at least 10 chars',
+        ];
+    }
+
+
 }

@@ -1,30 +1,14 @@
 <div class="form-group">
-    <label>Title</label>
+    <label>Title:</label>
     <input name="title" value="{{ old('title', $post->title ?? null) }}"
-           class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" >
-    @if($errors->has('title'))
-        <span class="invalid-feedback">
-            <strong>{{ $errors->first('title') }}</strong>
-        </span>
-    @endif
+           class="form-control" >
 </div>
 <div class="form-group">
-    <label>Content</label>
+    <label>Content:</label>
     <input name="content" value="{{ old('content', $post->title ?? null) }}"
-           class="form-control {{ $errors->has('content') ? 'is-invalid' : '' }}" >
-    @if($errors->has('content'))
-        <span class="invalid-feedback">
-            <strong>{{ $errors->first('content') }}</strong>
-        </span>
-    @endif
+           class="form-control" >
 </div>
 
-{{--@if($errors->any())--}}
-{{--    <div>--}}
-{{--        <ul>--}}
-{{--            @foreach($errors->all() as $error)--}}
-{{--                <li class="text-danger">{{ $error }}</li>--}}
-{{--            @endforeach--}}
-{{--        </ul>--}}
-{{--    </div>--}}
-{{--@endif--}}
+@errors @enderrors
+
+
