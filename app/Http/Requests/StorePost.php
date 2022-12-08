@@ -25,7 +25,9 @@ class StorePost extends FormRequest
     {
         return [
             'title' => [ 'bail','required', 'min: 5'], // "bail" used for stop validate by first error (without this, it will check for every validation
-            'content' => ['required', 'min: 10']
+            'content' => ['required', 'min: 10'],
+//            'thumbnail' => ['image'],
+            'thumbnail' => ['image', 'mimes:jpg,jpeg,png', 'max:1024', 'dimensions:min_height=100,min_width=150'],
         ];
     }
 

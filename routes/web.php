@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use \Illuminate\Support\Facades\Auth;
 use \App\Http\Controllers\PostTagController;
 use \App\Http\Controllers\PostCommentController;
+use \App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,12 +21,15 @@ use \App\Http\Controllers\PostCommentController;
 Route::get('/', [HomeController::class, 'home'])
     ->name('home');
 //    ->middleware('auth')
-
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/secret', [HomeController::class, 'secret'])->name('secret')->can('home.secret');
+
 Route::resource("posts", PostController::class);
 Route::put('/posts/{post}', [PostController::class, 'restore'])->name('posts.restore');
 Route::get('/posts/tag/{tag}',[PostTagController::class, 'index'])->name('posts.tags.index');
 Route::resource('posts.comments', PostCommentController::class)->only(['store']);
 
+Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
+
 Auth::routes();
+
