@@ -20,7 +20,7 @@
                                 @endif
                             </h3>
 
-                            @updated(['date' => $post->created_at, 'name' => $post->user->name])
+                            @updated(['date' => $post->created_at, 'name' => $post->user->name, 'userId' => $post->user->id])
                             @endupdated
 
                             @tags(['tags'=> $post->tags]) @endtags
@@ -48,19 +48,6 @@
                                                 @method('DELETE')
                                                 <input type="submit" value="Delete"
                                                        class="btn btn-outline-danger btn-block"/>
-                                            </form>
-                                        </div>
-                                    @endcan
-                                @endif
-                                @if ($post->trashed())
-                                    @can('restore', $post)
-                                        <div class="d-inline-block ml-1">
-                                            <form method="POST"
-                                                  action="{{ route('posts.restore', ['post' => $post->id]) }}">
-                                                @csrf
-                                                @method('PUT')
-                                                <input type="submit" value="Restore"
-                                                       class="btn btn-outline-success btn-block"/>
                                             </form>
                                         </div>
                                     @endcan

@@ -20,7 +20,7 @@ class PostController extends Controller
     public function __construct()
     {
         $this->middleware('auth')
-        ->only(['create', 'store', 'edit', 'update', 'destroy', 'restore']);
+        ->only(['create', 'store', 'edit', 'update', 'destroy',]);
     }
 
     public function index()
@@ -100,7 +100,7 @@ class PostController extends Controller
         if ($request->hasFile('thumbnail'))
         {
             $path = $request->file('thumbnail')->store('thumbnails');
-            $blogPost->image()->save( Image::create(['path' => $path]) );
+            $blogPost->image()->save( Image::make(['path' => $path]) );
         }
 
 
@@ -135,7 +135,7 @@ class PostController extends Controller
                 $post->image->path = $path;
                 $post->image->save();
             } else{
-                $post->image()->save(Image::create(['path' => $path]));
+                $post->image()->save(Image::make(['path' => $path]));
             }
         }
 
@@ -150,14 +150,6 @@ class PostController extends Controller
 //        }
 //        Gate::authorize('update', $post);
 
-    }
-
-    public function restore(Request $request, $id)
-    {
-        BlogPost::findOrFail($id)->restore();
-
-        $request->session()->flash("status", 'Blog post was restored!!!');
-        return redirect()->route('posts.index');
     }
 
     public function destroy(Request $request, $id)

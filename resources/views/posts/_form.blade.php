@@ -7,7 +7,7 @@
 <div class="form-group">
     <label>Content:</label>
     <input name="content"
-           value="{{ old('content', $post->title ?? null) }}"
+           value="{{ old('content', $post->content ?? null) }}"
            class="form-control" >
 </div>
 <div class="form-group">

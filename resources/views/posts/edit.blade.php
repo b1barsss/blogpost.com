@@ -5,10 +5,10 @@
           action=" {{ route("posts.update", ['post' => $post->id]) }} "
           enctype="multipart/form-data">
         @csrf
-        @method('PATCH')
+        @method('PUT')
 
         @include('posts._form')
 
-        <button type="submit" class="btn btn-primary btn-block  ">Update!</button>
+        <button type="submit" class="btn btn-primary btn-block">Update!</button>
     </form>
 @endsection
