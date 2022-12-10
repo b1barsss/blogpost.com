@@ -27,7 +27,6 @@ class CommentsTableSeeder extends Seeder
 
         $commentCount = (int)$this->command->ask("How many [Comments] would you like?",120);
 
-
         Comment::factory()->count($commentCount)->make()->each(
             function ($comment) use ($posts, $users)
             {
