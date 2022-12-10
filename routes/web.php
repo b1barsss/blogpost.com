@@ -1,13 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PostController;
-use \Illuminate\Support\Facades\Auth;
-use \App\Http\Controllers\PostTagController;
-use \App\Http\Controllers\PostCommentController;
-use \App\Http\Controllers\UserController;
-use \App\Http\Controllers\UserCommentController;
+use Illuminate\{Support\Facades\Route,
+        Support\Facades\Auth};
+use App\{Http\Controllers\HomeController,
+        Http\Controllers\PostController,
+        Http\Controllers\PostTagController,
+        Http\Controllers\PostCommentController,
+        Http\Controllers\UserController,
+        Http\Controllers\UserCommentController};
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +32,12 @@ Route::resource('posts.comments', PostCommentController::class)->only(['store'])
 Route::resource('users.comments', UserCommentController::class)->only(['store']);
 
 Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
+
+Route::get('mailable/{commentId}', function($commentId)
+{
+    $comment = \App\Models\Comment::findOrFail($commentId);
+    return  new \App\Mail\CommentPostedMarkdown($comment);
+});
 
 Auth::routes();
 

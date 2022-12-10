@@ -46,7 +46,7 @@
     <div class="container">
         @if(session()->has('status'))
             <div class="row">
-                <h3 class="badge badge-success" style="position: absolute; top: 8.6%; left: 16px;">
+                <h3 class="badge badge-success" style="position: absolute; top: 8.6%; left: 15%;">
                     {{ session()->get('status') }}
                 </h3>
             </div>
