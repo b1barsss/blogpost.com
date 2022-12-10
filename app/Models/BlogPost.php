@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\DeletedAdminScope;
+use App\Traits\Taggable;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,9 +13,8 @@ use Illuminate\Support\Facades\Cache;
 
 class BlogPost extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes, Taggable;
 //    protected $table = "blogposts";
-    use SoftDeletes;
 
 
     protected $fillable = [
@@ -36,11 +36,6 @@ class BlogPost extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function tags()
-    {
-        return $this->morphToMany(Tag::class, 'taggable')->withTimestamps();
     }
 
     public function image()
