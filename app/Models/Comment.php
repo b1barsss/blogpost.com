@@ -19,11 +19,9 @@ class Comment extends Model
         'content',
     ];
 
-    public function blogPost() // naming for blog_post_id
+    public function commentable()
     {
-        return $this->belongsTo(BlogPost::class);
-        //  return $this->belongsTo(BlogPost::class, 'post_id', 'blog_post_id'); post_id if foreign key is post_id
-
+        return $this->morphTo();
     }
 
     public function user()
@@ -39,8 +37,10 @@ class Comment extends Model
 
         static::creating(function (Comment $comment)
         {
-            Cache::tags(['blog-post'])->forget("blog-post-$comment->blog_post_id");
-            Cache::tags(['blog-post'])->forget("mostCommented");
+            if ($comment->commentable_type === BlogPost::class) {
+                Cache::tags(['blog-post'])->forget("blog-post-$comment->commentable_id");
+                Cache::tags(['blog-post'])->forget("mostCommented");
+            }
         });
 
 

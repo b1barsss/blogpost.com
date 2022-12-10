@@ -27,7 +27,7 @@
                     @endif
 
                     <p> {{ $post->content }}</p>
-                        @updated(['date' => $post->created_at, 'name' => $post->user->name])
+                        @updated(['date' => $post->created_at, 'name' => $post->user->name, 'userId' => $post->user->id])
                         @endupdated
                         @updated(['date' => $post->updated_at])
                             Updated
@@ -38,17 +38,11 @@
 
                     <h4 class="font-weight-bolder">Comments</h4>
 
-                    @include('comments._form')
+                    @commentForm(['route' => route('posts.comments.store', ['post' => $post->id])])
+                    @endcommentForm
 
-                    @forelse($post->comments as $comment)
-                        <p>
-                            {{ $comment->content }}
-                        </p>
-                        @updated(['date' => $comment->created_at, 'name' => $comment->user->name])
-                        @endupdated
-                    @empty
-                        <p>No Comments yet!</p>
-                    @endforelse
+                    @commentList(['comments' => $post->comments])
+                    @endcommentList
                 </div>
             </div>
         </div>

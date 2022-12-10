@@ -14,11 +14,17 @@
         <div class="col-8">
             <div class="card">
                 <div class="card-body">
-                    <h3>{{ $user->name }}</h3>
+                    <h3 class="mb-4">{{ $user->name }}</h3>
+
+                    @commentForm(['route' => route('users.comments.store', ['user' => $user->id])])
+                    @endcommentForm
+
+                    @commentList(['comments' => $user->commentsOn])
+                    @endcommentList
+
                 </div>
             </div>
         </div>
-
     </div>
 
 @endsection

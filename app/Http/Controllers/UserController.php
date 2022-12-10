@@ -89,6 +89,10 @@ class UserController extends Controller
                 );
             }
         }
+
+        $user->name = $request->input('name');
+        $user->save();
+
         return redirect()
 //            ->route('users.show', ['user' => $user])
             ->back()

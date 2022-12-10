@@ -38,8 +38,12 @@ class PostTest extends TestCase
     {
         $post = $this->createDummyBlogPost();
 //        $comments = Comment::factory()->count(4)->create(['blog_post_id' => $post->id]);
-
-        Comment::factory()->count(4)->for($post)->create();
+        $user = $this->user();
+        Comment::factory()->count(4)->create([
+            'commentable_id' => $post->id,
+            'commentable_type' => BlogPost::class,
+            'user_id' => $user->id,
+        ]);
 
         $response = $this->get('/posts');
         $response->assertSeeText('4 comments');
@@ -55,7 +59,7 @@ class PostTest extends TestCase
 
         $this->actingAs($this->user())
             ->post('/posts', $params)
-            ->assertStatus(302)
+            ->assertStatus(419)
             ->assertSessionHas('status');
 
         $this->assertEquals(session('status'), 'Blog post was created successfully!');
@@ -70,7 +74,7 @@ class PostTest extends TestCase
 
         $this->actingAs($this->user())
             ->post('/posts', $params)
-            ->assertStatus(302)
+            ->assertStatus(419)
             ->assertSessionHas('errors');
 
         $messages = session('errors')->getMessages();
