@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BlogPostPosted;
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
 //use App\Models\Comment;
@@ -87,6 +88,7 @@ class PostController extends Controller
 
     public function create()
     {
+
         return view('posts.create');
     }
 
@@ -103,10 +105,13 @@ class PostController extends Controller
             $blogPost->image()->save( Image::make(['path' => $path]) );
         }
 
+        event(new BlogPostPosted($blogPost));
 
-        $request->session()->flash('status','Blog post was created successfully!');
+//        $request->session()->flash('status','Blog post was created successfully!');
 
-        return redirect()->route('posts.show', ['post' => $blogPost->id]);
+        return redirect()
+            ->route('posts.show', ['post' => $blogPost->id])
+            ->withStatus('Blog post was created successfully!');
     }
 
     public function edit($id)
