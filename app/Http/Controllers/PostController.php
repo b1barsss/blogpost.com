@@ -36,7 +36,7 @@ class PostController extends Controller
 
         $blogPost = Cache::tags(['blog-post'])->remember("blog-post-$id", 60, function () use ($id)
         {
-            return BlogPost::with(['comments' ,'tags', 'comments.user'])->findOrFail($id);
+            return BlogPost::with(['tags','comments', 'comments.user', 'comments.tags'])->findOrFail($id);
         });
         $sessionId = session()->getId();
         $counterKey = "blog-post-$id-counter";

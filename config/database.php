@@ -152,13 +152,13 @@ return [
             'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
         ],
 
-        'default' => [
-            'url' => env('REDIS_URL'),
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
-            'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_DB', '0'),
-        ],
+//        'default' => [
+//            'url' => env('REDIS_URL'),
+//            'host' => env('REDIS_HOST', '127.0.0.1'),
+//            'password' => env('REDIS_PASSWORD', null),
+//            'port' => env('REDIS_PORT', '6379'),
+//            'database' => env('REDIS_DB', '0'),
+//        ],
 
         'cache' => [
             'url' => env('REDIS_URL'),
@@ -166,7 +166,33 @@ return [
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_CACHE_DB', '1'),
+            'prefix' => 'c:',
+
         ],
+
+//        'cache' => [
+//            'url' => env('REDIS_URL'),
+//            'host' => env('REDIS_HOST', '127.0.0.1'),
+//            'password' => env('REDIS_PASSWORD'),
+//            'port' => env('REDIS_PORT', '6379'),
+//            //database set to 0 since only database 0 is supported in redis cluster
+//            'database' => '0',
+//            //redis key prefix for this connection
+//            'prefix' => 'c:',
+//        ],
+
+        'queue' => [
+            'url' => env('REDIS_URL'),
+            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', '6379'),
+            //database set to 0 since only database 0 is supported in redis cluster
+            'database' => env('REDIS_QUEUE_DB', '1'),
+            //redis key prefix for this connection
+            'prefix' => 'q:',
+        ],
+
+
 
     ],
 
