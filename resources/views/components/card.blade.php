@@ -1,8 +1,8 @@
 <div class="card" style="width: 100%;">
     <div class="card-body">
-        <h5 class="card-title text-dark font-weight-bolder">{{ $title }}</h5>
+        <h5 class="card-title text-dark font-weight-bolder">{{ __((string)$title) }}</h5>
         <h6 class="card-subtitle mb-2 text-muted font-italic">
-            {{ $subtitle }}
+            {{ __((string)$subtitle) }}
         </h6>
     </div>
     <ul class="list-group list-group-flush">

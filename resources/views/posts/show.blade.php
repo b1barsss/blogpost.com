@@ -16,7 +16,7 @@
 
                         {{ $post->title }}
                         @badge(['type' => null , 'show' => now()->diffInMinutes($post->created_at) < 10])
-                            Brand new Post!
+                            {{ __('Brand new Post!') }}
                         @endbadge
 
                     @if ($post->image)
@@ -30,13 +30,13 @@
                         @updated(['date' => $post->created_at, 'name' => $post->user->name, 'userId' => $post->user->id])
                         @endupdated
                         @updated(['date' => $post->updated_at])
-                            Updated
+                            {{ __('Updated') }}
                         @endupdated
-                    <p>Currently read by {{ $counter }} people.</p>
+                    <p>{{ trans_choice('messages.people.reading', $counter) }}</p>
 
                     @tags(['tags'=> $post->tags]) @endtags
 
-                    <h4 class="font-weight-bolder">Comments</h4>
+                    <h4 class="font-weight-bolder">{{ __('Comments') }}</h4>
 
                     @commentForm(['route' => route('posts.comments.store', ['post' => $post->id])])
                     @endcommentForm

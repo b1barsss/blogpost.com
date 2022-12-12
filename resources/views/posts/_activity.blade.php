@@ -15,7 +15,7 @@
                         </a>
                         @if ((auth()->user()->is_admin) ?? false)
                             <div class="text-muted font-italic" style="display: block;">
-                                {{ $post->comments_count }} comments
+                                {{ $post->comments_count }} {{ __('comments') }}
                             </div>
                         @endif
                     </li>

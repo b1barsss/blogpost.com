@@ -32,7 +32,7 @@ class StoreComment extends FormRequest
     {
         return [
             'content.required' => "You can't add empty comment!",
-            'content.min' => "Comment should contain at least 5 chars"
+            'content.min' => "Comment should contain at least :min chars"
         ];
     }
 }

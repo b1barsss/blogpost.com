@@ -36,9 +36,10 @@ StorePost extends FormRequest
     {
         return [
             'title.required' => '[Title] field is required',
-            'title.min' => '[Title] field should contain at least 5 chars',
+            'title.max' => '[Title] field should contain less than :max chars',
+            'title.min' => '[Title] field should contain at least :min chars',
             'content.required' => '[Content] field is required',
-            'content.min' => '[Content] field should contain at least 10 chars',
+            'content.min' => '[Content] field should contain at least :min chars',
         ];
     }
 

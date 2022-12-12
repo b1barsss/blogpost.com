@@ -25,18 +25,13 @@
 
                             @tags(['tags'=> $post->tags]) @endtags
 
-
-                        @if($post->comments_count)
-                                <p>{{ $post->comments_count }} comments</p>
-                            @else
-                                <p><span class="">No comments yet!</span></p>
-                            @endif
+                            <p>{{ trans_choice('messages.comments', $post->comments_count) }}</p>
 
                             <div class="d-flex align-items-center ">
                                 @can('update', $post)
                                     <div class="d-inline-block mr-1 ">
                                         <a href="{{ route('posts.edit', ['post' => $post->id]) }}"
-                                           class="btn btn-outline-primary btn-block">Edit</a>
+                                           class="btn btn-outline-primary btn-block">{{ __('Edit') }}</a>
                                     </div>
                                 @endcan
                                 @if (! $post->trashed())
@@ -46,7 +41,7 @@
                                                   action="{{ route('posts.destroy', ['post' => $post->id]) }}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <input type="submit" value="Delete"
+                                                <input type="submit" value="{{ __('Delete') }}"
                                                        class="btn btn-outline-danger btn-block"/>
                                             </form>
                                         </div>
@@ -56,7 +51,7 @@
                             <hr class="dashed border-primary border-bottom-0">
                         </div>
                     @empty
-                        <h6 class="font-weight-bolder">No blog posts yet!</h6>
+                        <h6 class="font-weight-bolder">{{ __("No blog posts yet!") }}</h6>
                     @endforelse
                 </div>
             </div>

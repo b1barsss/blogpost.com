@@ -7,5 +7,5 @@
     id])
     @endupdated
 @empty
-    <p>No Comments yet!</p>
+    <p>{{ __('No Comments yet!') }}</p>
 @endforelse

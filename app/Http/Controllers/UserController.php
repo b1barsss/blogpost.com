@@ -90,13 +90,15 @@ class UserController extends Controller
             }
         }
 
+
+        $user->locale = $request->input('locale');
         $user->name = $request->input('name');
         $user->save();
 
         return redirect()
 //            ->route('users.show', ['user' => $user])
             ->back()
-            ->withStatus('Profile image was updated!');
+            ->withStatus('Profile was updated!');
     }
 
     /**
