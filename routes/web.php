@@ -28,7 +28,8 @@ Route::get('/secret', [HomeController::class, 'secret'])->name('secret')->can('h
 
 Route::resource("posts", PostController::class);
 Route::get('/posts/tag/{tag}',[PostTagController::class, 'index'])->name('posts.tags.index');
-Route::resource('posts.comments', PostCommentController::class)->only(['store']);
+
+Route::resource('posts.comments', PostCommentController::class)->only(['index', 'store']);
 Route::resource('users.comments', UserCommentController::class)->only(['store']);
 
 Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
