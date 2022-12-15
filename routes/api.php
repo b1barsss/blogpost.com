@@ -18,4 +18,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::prefix('v1')->name('api.v1')->group(function (){
+    Route::get('/status', function(){
+        return response()->json(['status' => 'OK']);
+    });
+    Route::apiResource('posts.comments', \App\Http\Controllers\Api\V1\PostCommentController::class);
+});
+
+Route::prefix('v2')->group(function (){
+    Route::get('/status', function(){
+        return response()->json(['status' => true]);
+    });
+});
+
 

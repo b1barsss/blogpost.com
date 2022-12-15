@@ -14,6 +14,9 @@ use Illuminate\Contracts\Cache\Factory;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use App\Http\Resources\Comment as CommentResource;
+use Illuminate\Http\Resources\Json\JsonResource;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -49,6 +52,9 @@ class AppServiceProvider extends ServiceProvider
             CounterContract::class,
             Counter::class
         );
+
+//        CommentResource::withoutWrapping();
+        JsonResource::withoutWrapping();
 
 //        $this->app->bind(
 //            CounterContract::class,
