@@ -28,7 +28,7 @@ class PostTest extends TestCase
         $response = $this->get('/posts');
 
         $response->assertSeeText('New Title');
-        $response->assertSeeText('No comments yet!');
+        $response->assertSeeText('No comments yet');
         $this->assertDatabaseHas('blog_posts', [
             'title' => 'New Title'
         ]);
@@ -59,7 +59,7 @@ class PostTest extends TestCase
 
         $this->actingAs($this->user())
             ->post('/posts', $params)
-            ->assertStatus(419)
+            ->assertStatus(302)
             ->assertSessionHas('status');
 
         $this->assertEquals(session('status'), 'Blog post was created successfully!');
@@ -74,13 +74,13 @@ class PostTest extends TestCase
 
         $this->actingAs($this->user())
             ->post('/posts', $params)
-            ->assertStatus(419)
+            ->assertStatus(302)
             ->assertSessionHas('errors');
 
         $messages = session('errors')->getMessages();
 
-        $this->assertEquals($messages['title'][0],'The title must be at least  5 characters.');
-        $this->assertEquals($messages['content'][0], 'The content must be at least  10 characters.');
+        $this->assertEquals($messages['title'][0],'[Title] field should contain at least  5 chars');
+        $this->assertEquals($messages['content'][0], '[Content] field should contain at least  10 chars');
     }
 
     public function test_UpdateValid()
@@ -111,7 +111,7 @@ class PostTest extends TestCase
     public function test_DeleteValid()
     {
         $user = $this->user();
-        $post = $this->createDummyBlogPost(1);
+        $post = $this->createDummyBlogPost($user->id);
 
         $this->assertDatabaseHas('blog_posts', $post->toArray());
 

@@ -75,6 +75,8 @@ class PostController extends Controller
     {
         $post = BlogPost::findOrFail($id);
 
+        $this->authorize($post);
+
         return view("posts.edit", ['post' => $post]);
 
 //        $this->authorize('update',$post);
@@ -88,7 +90,11 @@ class PostController extends Controller
     {
         $post = BlogPost::findOrFail($id);
 
+        $this->authorize($post);
+
         $validatedData = $request->validated();
+
+        $post->fill($validatedData)->save();
 
         if ($request->hasFile('thumbnail')){
             $path = $request->file('thumbnail')->store('thumbnails');
@@ -102,7 +108,6 @@ class PostController extends Controller
         }
 
 
-        $post->fill($validatedData)->save();
         $request->session()->flash("status", 'Blog post was Updated!!!');
         return redirect()->route('posts.show', ['post' => $post->id]);
 
@@ -116,10 +121,14 @@ class PostController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        BlogPost::findOrFail($id)->delete();
+        $post = BlogPost::findOrFail($id);
 
-        $request->session()->flash("status", 'Blog post was Deleted!!!');
-        return redirect()->route('posts.index');
+        $this->authorize($post);
+
+        $post->delete();
+
+//        $request->session()->flash("status", 'Blog post was Deleted!!!');
+        return redirect()->route('posts.index')->withStatus('Blog post was Deleted!!!');
 //        if (Gate::denies('delete-post', $post))
 //        {
 //            abort(403,"You can't delete this blog post!");

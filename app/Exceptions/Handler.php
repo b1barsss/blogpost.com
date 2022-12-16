@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -13,7 +17,7 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
-        //
+
     ];
 
     /**
@@ -26,6 +30,24 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
+
+    public function render($request, Throwable $e)
+    {
+        if ($request->expectsJson() && $e instanceof ModelNotFoundException)
+        {
+            return Route::respondWithRoute('api.fallback');
+        }
+
+//        dd(get_class($e));
+
+        if ($request->expectsJson() && $e instanceof AuthorizationException)
+        {
+            return response()->json(['message' => $e->getMessage()], 403);
+        }
+
+
+        return parent::render($request, $e);
+    }
 
     /**
      * Register the exception handling callbacks for the application.

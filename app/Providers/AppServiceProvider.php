@@ -44,7 +44,8 @@ class AppServiceProvider extends ServiceProvider
             return new Counter(
                 $app->make(Factory::class),
                 $app->make(Session::class),
-                env('COUNTER_TIMEOUT')
+//                env('COUNTER_TIMEOUT')
+                5
             );
         });
 

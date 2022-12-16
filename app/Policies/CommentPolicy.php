@@ -2,12 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\BlogPost;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Auth\Access\Response;
 
-class BlogPostPolicy
+class CommentPolicy
 {
     use HandlesAuthorization;
 
@@ -19,17 +18,17 @@ class BlogPostPolicy
      */
     public function viewAny(User $user)
     {
-        true;
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\BlogPost  $blogPost
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, BlogPost $blogPost)
+    public function view(User $user, Comment $comment)
     {
         return true;
     }
@@ -42,6 +41,7 @@ class BlogPostPolicy
      */
     public function create(User $user)
     {
+        return true;
 
     }
 
@@ -49,39 +49,34 @@ class BlogPostPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\BlogPost  $blogPost
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, BlogPost $blogPost)
+    public function update(User $user, Comment $comment)
     {
-//        return $user->id === $blogPost->user_id;
-        return $user->id === $blogPost->user_id
-            ? Response::allow()
-            : Response::deny('You do not own this post.');
+        return $comment->user_id === $user->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\BlogPost  $blogPost
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, BlogPost $blogPost)
+    public function delete(User $user, Comment $comment)
     {
-        return $user->id === $blogPost->user_id
-            ? Response::allow()
-            : Response::deny('You do not own this post.');
+        return $comment->user_id === $user->id;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\BlogPost  $blogPost
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, BlogPost $blogPost)
+    public function restore(User $user, Comment $comment)
     {
         return false;
     }
@@ -90,10 +85,10 @@ class BlogPostPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\BlogPost  $blogPost
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, BlogPost $blogPost)
+    public function forceDelete(User $user, Comment $comment)
     {
         return false;
     }

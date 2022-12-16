@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\BlogPost;
+use App\Models\Comment;
 use App\Models\User;
 use App\Policies\BlogPostPolicy;
+use App\Policies\CommentPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -21,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
 //        'App\Models\BlogPost' => 'App\Policies\BlogPostPolicy',
         BlogPost::class => BlogPostPolicy::class,
         User::class => UserPolicy::class,
+        Comment::class => CommentPolicy::class,
     ];
 
     /**
@@ -31,6 +34,10 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+//        Gate::guessPolicyNamesUsing(function ($modelClass) {
+//            return 'App\\Policies\\' . class_basename($modelClass) . 'Policy';
+//        });
 
         Gate::define('home.secret', function ($user){
             return $user->is_admin;
@@ -49,7 +56,7 @@ class AuthServiceProvider extends ServiceProvider
 //        Gate::resource('posts', BlogPostPolicy::class);
 
         Gate::before(function ($user, $ability){
-            return ($user->is_admin and in_array($ability, ['update','delete', 'restore'])) ?: null;
+            return ($user->is_admin and in_array($ability, ['update','delete'])) ?: null;
 
         });
 
