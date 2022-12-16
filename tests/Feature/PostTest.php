@@ -91,7 +91,7 @@ class PostTest extends TestCase
 
         $params = [
             'title' => 'A new valid',
-            'content' => 'A new valid content mother fucker'
+            'content' => 'A new valid content'
         ];
         $this->actingAs($user)
             ->patch("posts/{$post->id}", $params )
@@ -104,7 +104,8 @@ class PostTest extends TestCase
                                                                              // (shouldn't be in the database)
 
         $this->assertDatabaseHas('blog_posts', [
-            'title' => 'A new valid'
+            'title' => 'A new valid',
+            'content' => 'A new valid content'
         ]); // checking for updated data in the database
     }
 

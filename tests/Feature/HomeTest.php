@@ -20,7 +20,7 @@ class HomeTest extends TestCase
     {
         $response = $this->get('/contact');
 
-        $response->assertSeeText('Contact');
+        $response->assertSeeText('Welcome to Contact!');
     }
 
 }
